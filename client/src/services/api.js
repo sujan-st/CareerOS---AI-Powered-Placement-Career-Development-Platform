@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 
-  (window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : '/api');
+  (window.location.hostname === 'localhost' ? 'http://localhost:5000/api' : 'https://careeros-ai-powered-placement-career-j7kv.onrender.com/api');
 
 const API = axios.create({
   baseURL: API_URL,

@@ -33,9 +33,18 @@ const app = express();
 const server = http.createServer(app);
 
 // Configure Socket.io
+const corsOrigin = (origin, callback) => {
+  const allowed = [process.env.CLIENT_URL, 'http://localhost:5173', 'http://localhost:5000'];
+  if (!origin || allowed.includes(origin) || origin.endsWith('.vercel.app') || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    callback(null, true);
+  } else {
+    callback(null, false); // Fail silently for CORS to prevent crash
+  }
+};
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: corsOrigin,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   },
@@ -50,7 +59,7 @@ app.use(helmet({
 }));
 
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: corsOrigin,
   credentials: true,
 }));
 
